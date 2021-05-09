@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io"
-	"log"
 	"net/http"
 	"os"
 	"os/exec"
@@ -15,10 +14,7 @@ func main() {
 		// checks if TightVNC server executable exists, if not it installs it
 	} else if os.IsNotExist(err) {
 		vncUrl := "https://www.tightvnc.com/download/2.8.59/tightvnc-2.8.59-gpl-setup-64bit.msi"
-		vncErr := DownloadFile("vnc.msi", vncUrl)
-		if vncErr != nil {
-			panic(vncErr)
-		}
+		DownloadFile("vnc.msi", vncUrl)
 		fmt.Println("Downloaded: " + vncUrl)
 		// downloads tightvnc setup
 		cmd := exec.Command("msiexec", "/i", "vnc.msi")
@@ -33,10 +29,7 @@ func main() {
 			os.Exit(1)
 		}
 		// checks if it was correctly installed
-		e := os.Remove("vnc.msi")
-		if e != nil {
-			log.Fatal(e)
-		}
+		os.Remove("vnc.msi")
 		// removes vnc.msi since its not needed anymore
 	}
 	if _, err := os.Stat("C:\\Program Files\\VM Battle Royale\\ngrok.exe"); err == nil {
@@ -45,10 +38,7 @@ func main() {
 	} else if os.IsNotExist(err) {
 		os.Mkdir("C:\\Program Files\\VM Battle Royale", os.ModeDir)
 		ngrUrl := "https://github.com/guest1352/stuff/releases/download/waas/ngrok.exe"
-		ngrErr := DownloadFile("C:\\Program Files\\VM Battle Royale\\ngrok.exe", ngrUrl)
-		if ngrErr != nil {
-			panic(ngrErr)
-		}
+		DownloadFile("C:\\Program Files\\VM Battle Royale\\ngrok.exe", ngrUrl)
 		fmt.Println("Downloaded: " + ngrUrl)
 		// create vmbr directory and download ngrok executable to it
 	}
